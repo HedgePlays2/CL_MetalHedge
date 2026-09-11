@@ -1,0 +1,136 @@
+addHook("ThinkFrame", do
+	for player in players.iterate
+		if player.mo and player.mo.skin == "pmetal"
+			if not (player.mo.fires)
+				player.mo.fires = 0
+			end
+			if (player.cmd.buttons & BT_FIRENORMAL)
+			 or (player.cmd.buttons & BT_CUSTOM1)
+			and not (player.powers[pw_carry] == CR_NIGHTSMODE)
+			and not (player.powers[pw_carry]) 
+			and not (player.pflags & PF_STASIS)
+			and not (player.mo.tracer and player.mo.tracer.type == MT_TUBEWAYPOINT) 
+		and not (player.mo.state == S_PLAY_SUPER_TRANS1)
+	    and not (player.mo.state == S_PLAY_SUPER_TRANS2)
+	    and not (player.mo.state == S_PLAY_SUPER_TRANS3)
+	    and not (player.mo.state == S_PLAY_SUPER_TRANS4)
+	    and not (player.mo.state == S_PLAY_SUPER_TRANS5)
+	    and not (player.mo.state == S_PLAY_SUPER_TRANS6)
+		and not (player.pflags & PF_FINISHED)
+		and P_PlayerInPain(player) == false
+	    and player.playerstate == PST_LIVE
+			and player.mo.fires == 0
+				player.mo.fires = 1 
+				S_StartSound(player.mo, sfx_trfire)
+		       local flame = P_SpawnPlayerMissile(player.mo, MT_TURRETLASER)
+				end
+			if not (player.cmd.buttons & BT_FIRENORMAL)
+			or not (player.cmd.buttons & BT_CUSTOM1)
+				player.mo.fires = 0
+			end
+		end
+	end
+end)
+
+
+addHook("ShouldDamage", function(target, inflictor, damage)
+	if (target.skin == "pmetal")if (inflictor and inflictor.flags & MF_FIRE) 
+		return false
+	end
+end
+end, MT_PLAYER) 
+
+// fire not hurting you
+addHook("MobjDamage",function(ptarget, inf, src, damage, damageType)
+	for player in players.iterate
+			if not (player.mo.firer)
+				player.mo.firer = 0
+			end
+  if not (ptarget and ptarget.valid and ptarget.player) return end
+  if ptarget.skin == "pmetal" and damageType == DMG_FIRE 
+    return true
+  end
+end
+end,MT_PLAYER)
+// spike killer
+addHook ("MobjMoveCollide", function (player, spike)
+	if player.skin == "pmetal"
+		if (spike.type == MT_SPIKE
+		or spike.type == MT_WALLSPIKE)
+			if (player.z + player.height < spike.z) 
+			or (player.z > spike.z + spike.height)
+				return false
+			else
+				P_KillMobj(spike,player,player)
+			end
+		end
+	end
+end)
+
+local function allSpin(p)
+  if p.mo and p.mo.skin == "pmetal" and not p.spectator and P_IsObjectOnGround(p.mo)--p.mo.skin check goes AFTER we've defined what p is, which is the player by default in this hook.
+  
+	
+	 if not p.powers[pw_carry] and not p.powers[pw_nocontrol] and p.mo.state != S_PLAY_SPINDASH
+	 and p.charability2 == CA2_SPINDASH and not (p.pflags & (PF_SPINDOWN|PF_SPINNING|PF_STARTDASH))
+	 
+		if (p.speed < 28*FRACUNIT) --Remove this part if you want the old system back.
+		p.mindash = 28*FRACUNIT
+		else
+
+		p.mindash = p.speed + 10*FRACUNIT -- this one makes the mindash be boosted a bit
+		end  
+		
+        P_InstaThrust(p.mo, p.mo.angle, 2*FRACUNIT)
+	    p.mo.state = S_PLAY_SPINDASH
+	    p.pflags = $ | (PF_SPINDOWN|PF_STARTDASH|PF_SPINNING)
+	    S_StartSound(p.mo, sfx_spndsh)
+	    return true
+        elseif (p.pflags & PF_SPINNING) and p.mo.state == S_PLAY_ROLL and
+        not (p.pflags & (PF_SPINDOWN|PF_STARTDASH))
+        p.mo.state = S_PLAY_RUN
+		p.pflags = ($ & ~PF_SPINNING) | PF_SPINDOWN
+		P_Thrust(p.mo, p.mo.angle, 12*FRACUNIT)
+		return true
+    end
+ end
+end		
+addHook("SpinSpecial", allSpin)
+
+
+addHook("PlayerCanDamage", function(player, mobj)
+	if player.mo and player.mo.skin == "pmetal" and not P_PlayerInPain(player)
+	and (mobj.flags&MF_ENEMY or mobj.flags&MF_BOSS) return true end
+end, MT_PLAYER)
+
+addHook("MobjDamage", function(target, inflictor, source, damage, damagetype)
+	if target.player and target.skin == "pmetal" and not (damagetype&DMG_DEATHMASK)
+	and target.player.powers[pw_shield] == SH_NONE
+		P_DoPlayerPain(target.player, source, inflictor)
+		P_PlayDeathSound(target)
+		P_PlayerFlagBurst(target.player)
+		return true
+	end
+end, MT_PLAYER)
+
+addHook("ThinkFrame", do
+	for player in players.iterate
+		if player.mo and player.mo.skin == "pmetal"
+			if not (player.mo.firerun)
+				player.mo.firerun = 0
+			end
+		if player.mo.state == S_PLAY_DASH
+		and P_IsObjectOnGround(player.mo)
+		and not (player.mo.eflags & MFE_UNDERWATER) then
+			P_ElementalFire(player)
+			player.mo.firerun = 1
+		end
+	end
+end
+end)
+
+addHook("PlayerThink", function(p)
+        if not (p and p.mo and p.mo.valid and p.mo.skin == "pmetal") return end
+         p.powers[pw_underwater] = 30*TICRATE
+		 p.powers[pw_spacetime] = 30*TICRATE
+end)

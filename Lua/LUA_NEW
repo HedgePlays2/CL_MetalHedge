@@ -1,0 +1,53 @@
+freeslot(
+"SKINCOLOR_SUPER_BLACK_1",
+"SKINCOLOR_SUPER_BLACK_2",
+"SKINCOLOR_SUPER_BLACK_3",
+"SKINCOLOR_SUPER_BLACK_4",
+"SKINCOLOR_SUPER_BLACK_5"
+)
+
+skincolors[SKINCOLOR_SUPER_BLACK_1] = {
+    name = "Super Black 1",
+    ramp = {14,16,18,20,21,22,23,24,25,26,27,27,27,28,29,29
+},
+    invcolor = SKINCOLOR_ORANGE,
+    invshade = 9,
+    chatcolor = V_BLUEMAP,
+    accessible = false
+}
+skincolors[SKINCOLOR_SUPER_BLACK_2] = {
+    name = "Super Black 2",
+    ramp = {16,18,20,21,22,23,24,25,26,27,27,27,28,29,29,30
+},
+    invcolor = SKINCOLOR_ORANGE,
+    invshade = 9,
+    chatcolor = V_BLUEMAP,
+    accessible = false
+}
+skincolors[SKINCOLOR_SUPER_BLACK_3] = {
+    name = "Super Black 3",
+    ramp = {18,20,21,22,23,24,25,26,27,27,27,28,29,29,30,30
+},
+    invcolor = SKINCOLOR_ORANGE,
+    invshade = 9,
+    chatcolor = V_BLUEMAP,
+    accessible = false
+}
+skincolors[SKINCOLOR_SUPER_BLACK_4] = {
+    name = "Super Black 4",
+    ramp = {20,21,22,23,24,25,26,27,27,27,28,29,29,30,30,31
+},
+    invcolor = SKINCOLOR_ORANGE,
+    invshade = 9,
+    chatcolor = V_BLUEMAP,
+    accessible = false
+}
+skincolors[SKINCOLOR_SUPER_BLACK_5] = {
+    name = "Super Black 5",
+    ramp = {21,22,23,24,25,26,27,27,27,28,29,29,30,30,31,31
+},
+    invcolor = SKINCOLOR_ORANGE,
+    invshade = 9,
+    chatcolor = V_BLUEMAP,
+    accessible = false
+}

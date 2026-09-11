@@ -1,0 +1,26 @@
+freeslot(
+"SKINCOLOR_PLASMA"
+)
+
+skincolors[SKINCOLOR_PLASMA] = {
+    name = "Plasma",
+    ramp = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+    invcolor = SKINCOLOR_PURPLE,
+    invshade = 6,
+    chatcolor = V_GRAYMAP,
+    accessible = true
+}
+
+
+addHook("ThinkFrame", do
+	skincolors[SKINCOLOR_PLASMA].ramp = skincolors[SKINCOLOR_SUPER_BLACK_1 + abs( ( (leveltime >> 1) % 9) - 4)].ramp
+end)
+
+
+	addHook("PlayerThink", function(player)
+	if player.mo.color == SKINCOLOR_PLASMA
+	local piss = P_SpawnMobjFromMobj(player.realmo, P_RandomRange(-20, 20) * FRACUNIT, P_RandomRange(-20, 20) * FRACUNIT, P_RandomRange(0, 50) * FRACUNIT, MT_WATERZAP)
+	piss.color = SKINCOLOR_PURPLE
+	piss.colorized = true
+	end
+end)
