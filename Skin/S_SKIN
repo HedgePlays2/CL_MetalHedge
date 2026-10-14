@@ -1,10 +1,10 @@
-name = pmetal
+name = metalh
 flags = SF_MACHINE|SF_DASHMODE|SF_NOSPINDASHDUST|SF_MULTIABILITY|SF_RUNONWATER|SF_STOMPDAMAGE
-realname = Plasma_Metal
+realname = Metal_Hedge
 hudname = Metal
-startcolor = 96
-prefcolor = Plasma
-supercolor = Black
+startcolor = 83
+prefcolor = Green
+supercolor = Green
 ability = CA_FLY
 actionspd = 150
 normalspeed = 36
