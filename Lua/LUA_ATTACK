@@ -1,6 +1,6 @@
 addHook("ThinkFrame", do
 	for player in players.iterate
-		if player.mo and player.mo.skin == "pmetal"
+		if player.mo and player.mo.skin == "metalh"
 			if not (player.mo.fires)
 				player.mo.fires = 0
 			end
@@ -34,7 +34,7 @@ end)
 
 
 addHook("ShouldDamage", function(target, inflictor, damage)
-	if (target.skin == "pmetal")if (inflictor and inflictor.flags & MF_FIRE) 
+	if (target.skin == "metalh")if (inflictor and inflictor.flags & MF_FIRE) 
 		return false
 	end
 end
@@ -47,14 +47,14 @@ addHook("MobjDamage",function(ptarget, inf, src, damage, damageType)
 				player.mo.firer = 0
 			end
   if not (ptarget and ptarget.valid and ptarget.player) return end
-  if ptarget.skin == "pmetal" and damageType == DMG_FIRE 
+  if ptarget.skin == "metalh" and damageType == DMG_FIRE 
     return true
   end
 end
 end,MT_PLAYER)
 // spike killer
 addHook ("MobjMoveCollide", function (player, spike)
-	if player.skin == "pmetal"
+	if player.skin == "metalh"
 		if (spike.type == MT_SPIKE
 		or spike.type == MT_WALLSPIKE)
 			if (player.z + player.height < spike.z) 
@@ -68,7 +68,7 @@ addHook ("MobjMoveCollide", function (player, spike)
 end)
 
 local function allSpin(p)
-  if p.mo and p.mo.skin == "pmetal" and not p.spectator and P_IsObjectOnGround(p.mo)--p.mo.skin check goes AFTER we've defined what p is, which is the player by default in this hook.
+  if p.mo and p.mo.skin == "metalh" and not p.spectator and P_IsObjectOnGround(p.mo)--p.mo.skin check goes AFTER we've defined what p is, which is the player by default in this hook.
   
 	
 	 if not p.powers[pw_carry] and not p.powers[pw_nocontrol] and p.mo.state != S_PLAY_SPINDASH
@@ -99,12 +99,12 @@ addHook("SpinSpecial", allSpin)
 
 
 addHook("PlayerCanDamage", function(player, mobj)
-	if player.mo and player.mo.skin == "pmetal" and not P_PlayerInPain(player)
+	if player.mo and player.mo.skin == "metalh" and not P_PlayerInPain(player)
 	and (mobj.flags&MF_ENEMY or mobj.flags&MF_BOSS) return true end
 end, MT_PLAYER)
 
 addHook("MobjDamage", function(target, inflictor, source, damage, damagetype)
-	if target.player and target.skin == "pmetal" and not (damagetype&DMG_DEATHMASK)
+	if target.player and target.skin == "metalh" and not (damagetype&DMG_DEATHMASK)
 	and target.player.powers[pw_shield] == SH_NONE
 		P_DoPlayerPain(target.player, source, inflictor)
 		P_PlayDeathSound(target)
@@ -115,7 +115,7 @@ end, MT_PLAYER)
 
 addHook("ThinkFrame", do
 	for player in players.iterate
-		if player.mo and player.mo.skin == "pmetal"
+		if player.mo and player.mo.skin == "metalh"
 			if not (player.mo.firerun)
 				player.mo.firerun = 0
 			end
@@ -130,7 +130,7 @@ end
 end)
 
 addHook("PlayerThink", function(p)
-        if not (p and p.mo and p.mo.valid and p.mo.skin == "pmetal") return end
+        if not (p and p.mo and p.mo.valid and p.mo.skin == "metalh") return end
          p.powers[pw_underwater] = 30*TICRATE
 		 p.powers[pw_spacetime] = 30*TICRATE
 end)
